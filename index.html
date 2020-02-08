@@ -7,34 +7,51 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
 
     <title>Chat</title>
   </head>
   <body>
-    <h1>Chat!</h1>
-    <div id="app">
-        <ul id="chatBox">
+    <div class="container">
+    
+      <h1 class="mt-5">Chat!</h1>
+      <div id="app" class="mx-auto">
+        <div v-if="state == 0">
+          <h3>Please choose a username</h3>
+          <form @submit.prevent = "setUsername">
+            <input type="text" placeholder="Username.." v-model:value="username" />
+            <input type="submit" class="btn btn-light" value="Join" />
+          </form>  
+          <button class="btn btn-light" @click="setUsername">Join as Guest</button>
+        </div>
+
+        <div v-if="state == 1" class="my-auto">
+
+          <ul id="chatBox">
             <li v-for="message in messages">
-                {{ message }}
+              <span v-if="typeof message.user != 'string'" class="text-info">{{ message.msg }}</span>
+              <span v-else><b>{{ message.user }}</b>: {{ message.msg }}</span>
             </li>
-        </ul>
-
-        <form @submit.prevent="sendMessage">
-            <input type="text" placeholder="Message..." v-model:value="message">
-            <input class="btn btn-light" type="submit" value="Send">
-        </form>
+          </ul>
+          
+          <form @submit.prevent="sendMessage">
+            <input type="text" placeholder="Message..." v-model:value="message" />
+            <input class="btn btn-light" type="submit" value="Send" />
+          </form>
+        </div>
+      </div>
     </div>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-    <!-- development version, includes helpful console warnings -->
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
-
-    <script src="/client.js"></script>
-  </body>
-</html>
+      
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+      
+      <!-- development version, includes helpful console warnings -->
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+      
+      <script src="/client.js"></script>
+    </body>
+    </html>

@@ -17,14 +17,25 @@ http.listen(port, function(){
 });
 
 io.on('connection', function(socket){
-    console.log('a user connected');
     socket.on('disconnect', function(){
-        console.log('user disconnected');
+      socket.broadcast.emit('message', {'user': null, 'msg': socket.username + ' has disconnected from the server!'})
     });
 
     socket.on('message', function(msg){
-        io.emit("message", msg);
+        io.emit("message", {
+          'user': socket.username,
+          'msg': msg
+        });
     });
+
+    socket.on('join', function (username) {
+      socket.username = 'Guest';
+      if (username != null) {
+        socket.username = username;
+      }
+      
+      socket.broadcast.emit('message', {'user': null, 'msg': socket.username + ' has joined the server!'})
+    })
 });
 
 io.emit('some event', {
