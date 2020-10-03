@@ -1,1 +1,1 @@
-# Quick chat app
+# Quick Chat App
